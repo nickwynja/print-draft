@@ -57,7 +57,6 @@ function! PrintDraft(...)
 		let cmd .= " -f markdown"
 		let cmd .= " --output " . l:output_fpath
 		let cmd .= " %" "input file from expanded filename
-        echom cmd
         silent execute "!" . cmd
     else
 		echoerr "Upgade your version of pandoc"
