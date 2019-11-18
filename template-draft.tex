@@ -210,6 +210,7 @@ $if(date)$
 $endif$
 
 \usepackage{fancyhdr}
+\usepackage{lastpage}
 \pagestyle{fancy}
 \fancyhead{} % clear all header fields
 \ifluatex % only luatex can use filemode
@@ -222,7 +223,7 @@ $endif$
     \fancyhead[R]{\footnotesize D \today~~\currenttime}
 \fi
 \fancyfoot[C]{\footnotesize $title$}
-\fancyfoot[R]{\footnotesize \thepage}
+\fancyfoot[R]{\footnotesize \thepage\ of \pageref{LastPage}}
 \fancyfoot[L]{\footnotesize $filecontentshash$}
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
@@ -245,7 +246,6 @@ $endif$
 $if(description)$
 Description: $description$\\
 $endif$
- 
 }
 
 $body$

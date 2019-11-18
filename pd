@@ -1,0 +1,87 @@
+#! /bin/bash
+SKIP_PRINT=false
+PRINT_RANGE=""
+RETURN_HASH_ONLY=false
+
+while getopts dhrp: option
+do
+  case "${option}"
+    in
+    h)
+      echo "Instantly print your draft in a well-set layout."
+      echo ""
+      echo "pd [OPTIONS] [FILE]"
+      echo "  -h     show this message"
+      echo "  -r     print a hash of the file contents"
+      echo "  -d     Don't print, just export to PDF"
+      echo "  -p     A print range for lp. See lp manual for format"
+      echo ""
+      echo "Examples:"
+      echo "  pd first-draft.md"
+      echo "  pf -p 1-2 first-draft.md"
+      echo "  pf -d first-draft.md && open first-draft.pdf"
+      exit 0;;
+    d) SKIP_PRINT=true;;
+    r) RETURN_HASH_ONLY=true;;
+    p) PRINT_RANGE=${OPTARG};;
+  esac
+done
+shift $((OPTIND -1))
+
+FNAME=$1
+PDF_PATH="/tmp"
+PDF_ENGINE="lualatex"
+FILTERS="include poetic"
+INPUT_FORMAT="markdown"
+TEMPLATE="template-draft.tex"
+OUTPUT_PATH="$PDF_PATH/$(basename $FNAME .md).pdf"
+
+function GenerateDraftHash {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    HASH=$(md5 -q  $FNAME | cut -c 26- | tr -cd '[:print:]')
+  else
+    HASH=$(md5sum $FNAME | awk '{ print $1 }' | cut -c 26- | tr -cd '[:print:]')
+  fi
+  echo "$HASH"
+}
+
+function SetFilters {
+  FILTERS_ARR=($FILTERS)
+  for F in $FILTERS; do echo -n "--filter $F "; done
+}
+
+function GeneratePDF {
+  pandoc -f $INPUT_FORMAT \
+    --pdf-engine $PDF_ENGINE \
+    --template $TEMPLATE \
+    -V filecontentshash:"`GenerateDraftHash $FNAME`" \
+    -V draftfilename:"$FNAME" \
+    `SetFilters` \
+    --output $OUTPUT_PATH \
+    $FNAME
+}
+
+function PrintPDF {
+		lp -o fit-to-page \
+       -o sides=one-sided \
+       -o page-ranges=$PRINT_RANGE \
+       $OUTPUT_PATH
+}
+
+function CleanUp {
+  rm -r $OUTPUT_PATH
+}
+
+if [[ "$RETURN_HASH_ONLY" = "true" ]]; then
+  GenerateDraftHash
+else
+  GeneratePDF
+  PANDOC_EXIT=`echo $?`
+  if [[ "$SKIP_PRINT" = "false" ]] && [ $PANDOC_EXIT == 0 ]; then
+    PrintPDF
+    CleanUp
+  fi
+fi
+
+
+
