@@ -3,12 +3,26 @@ SKIP_PRINT=false
 PRINT_RANGE=""
 RETURN_HASH_ONLY=false
 
-while getopts dhp: option
+while getopts dhrp: option
 do
   case "${option}"
     in
+    h)
+      echo "Instantly print your draft in a well-set layout."
+      echo ""
+      echo "pd [OPTIONS] [FILE]"
+      echo "  -h     show this message"
+      echo "  -r     print a hash of the file contents"
+      echo "  -d     Don't print, just export to PDF"
+      echo "  -p     A print range for lp. See lp manual for format"
+      echo ""
+      echo "Examples:"
+      echo "  pd first-draft.md"
+      echo "  pf -p 1-2 first-draft.md"
+      echo "  pf -d first-draft.md && open first-draft.pdf"
+      exit 0;;
     d) SKIP_PRINT=true;;
-    h) RETURN_HASH_ONLY=true;;
+    r) RETURN_HASH_ONLY=true;;
     p) PRINT_RANGE=${OPTARG};;
   esac
 done
