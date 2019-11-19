@@ -1,6 +1,6 @@
 #! /bin/bash
 SKIP_PRINT=false
-PRINT_RANGE=""
+PRINT_RANGE=false
 RETURN_HASH_ONLY=false
 
 while getopts dhrp: option
@@ -51,6 +51,7 @@ function SetFilters {
 }
 
 function GeneratePDF {
+  echo -n "Generating... "
   pandoc -f $INPUT_FORMAT \
     --pdf-engine $PDF_ENGINE \
     --template $TEMPLATE \
@@ -59,13 +60,21 @@ function GeneratePDF {
     $FILTER_STRING \
     --output $OUTPUT_PATH \
     $FNAME
+  echo "Done"
 }
 
 function PrintPDF {
-		lp -o fit-to-page \
-       -o sides=one-sided \
-       -o page-ranges=$PRINT_RANGE \
-       $OUTPUT_PATH
+
+  if [ "$PRINT_RANGE" != "false" ]; then
+    PRINT_RANGE_OPTION="-o page-ranges=$PRINT_RANGE"
+  fi
+
+  echo -n "Printing... "
+  lp -o fit-to-page \
+    -o sides=one-sided \
+    $PRINT_RANGE_OPTION \
+    $OUTPUT_PATH >/dev/null
+  echo "Done"
 }
 
 function CleanUp {
