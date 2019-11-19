@@ -19,6 +19,7 @@ $endif$
 
 \usepackage{setspace}
 \linespread{2.5}
+% \doublespacing
 
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -229,8 +230,7 @@ $endif$
 \renewcommand{\footrulewidth}{0.0pt}
 
 \begin{document}
-
-{ \setstretch{1.16}
+\begin{spacing}{1.5}
 $if(title)$
 Title: $title$\\
 $endif$
@@ -246,7 +246,7 @@ $endif$
 $if(description)$
 Description: $description$\\
 $endif$
-}
+\end{spacing}
 
 $body$
 
