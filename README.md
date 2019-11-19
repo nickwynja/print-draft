@@ -13,6 +13,9 @@ Run:
 make install
 ```
 
+You will also need to have [Pandoc](https://pandoc.org/) and a version of a
+Latex engine that supports `lualatex`.
+
 ## Usage
 
 ```
@@ -28,6 +31,16 @@ Examples:
   pd first-draft.md
   pf -p 1-2 first-draft.md
   pf -d first-draft.md && open first-draft.pdf
+```
+
+You can optionally include Pandoc [filters](https://pandoc.org/filters.html) by
+exporting an environment variable called `PD_PANDOC_FILTERS` with a
+space-separated list of your filter names. The most common way to set
+environment variables is by including something like this in your `.bashrc` or
+`.zshrc`:
+
+```sh
+export PD_PANDOC_FILTERS="filter1 filter2"
 ```
 
 ## Use with vim
