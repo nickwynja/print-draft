@@ -229,6 +229,10 @@ $endif$
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
 
+$for(header-includes)$
+$header-includes$
+$endfor$
+
 \begin{document}
 \begin{spacing}{1.5}
 $if(title)$

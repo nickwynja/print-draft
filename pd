@@ -60,7 +60,10 @@ function GeneratePDF {
     $FILTER_STRING \
     --output $OUTPUT_PATH \
     $FNAME
-  echo "Done"
+  PANDOC_EXIT=`echo $?`
+  if [ $PANDOC_EXIT == 0 ]; then
+    echo "Done"
+  fi
 }
 
 function PrintPDF {
@@ -86,7 +89,6 @@ if [[ "$RETURN_HASH_ONLY" = "true" ]]; then
 else
   SetFilters
   GeneratePDF
-  PANDOC_EXIT=`echo $?`
   if [[ "$SKIP_PRINT" = "false" ]] && [ $PANDOC_EXIT == 0 ]; then
     PrintPDF
     CleanUp
