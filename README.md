@@ -14,7 +14,19 @@ make install
 ```
 
 You will also need to have [Pandoc](https://pandoc.org/) and a version of a
-Latex engine that supports `lualatex`.
+Latex engine that supports `lualatex`. For installing LaTex, I recommend using
+[TinyTeX](https://yihui.org/tinytex/) and then installing packages as necessary using `tlmgr`.
+
+At minimum, you might need these requirements:
+
+``` 
+tlmgr install hyphenat \
+	  newunicodechar \
+	  blindtext \
+	  fancyhdr \
+	  lastpage \
+	  filemod
+```
 
 ## Usage
 
