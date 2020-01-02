@@ -41,8 +41,8 @@ pd [OPTIONS] [FILE]
 
 Examples:
   pd first-draft.md
-  pf -p 1-2 first-draft.md
-  pf -d first-draft.md && open first-draft.pdf
+  pd -p 1-2 first-draft.md
+  pd -d first-draft.md && open first-draft.pdf
 ```
 
 You can optionally include Pandoc [filters](https://pandoc.org/filters.html) by

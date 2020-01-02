@@ -18,8 +18,8 @@ do
       echo ""
       echo "Examples:"
       echo "  pd first-draft.md"
-      echo "  pf -p 1-2 first-draft.md"
-      echo "  pf -d first-draft.md && open first-draft.pdf"
+      echo "  pd -p 1-2 first-draft.md"
+      echo "  pd -d first-draft.md && open first-draft.pdf"
       exit 0;;
     d) SKIP_PRINT=true;;
     r) RETURN_HASH_ONLY=true;;
