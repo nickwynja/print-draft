@@ -3,7 +3,7 @@ SKIP_PRINT=false
 PRINT_RANGE=false
 RETURN_HASH_ONLY=false
 
-while getopts dhrp: option
+while getopts dhro:p: option
 do
   case "${option}"
     in
@@ -14,6 +14,7 @@ do
       echo "  -h     show this message"
       echo "  -r     print a hash of the file contents"
       echo "  -d     Don't print, just export to PDF"
+      echo "  -o     Output file path and name. Defaults to /tmp/{filename}.pdf"
       echo "  -p     A print range for lp. See lp manual for format"
       echo ""
       echo "Examples:"
@@ -23,18 +24,19 @@ do
       exit 0;;
     d) SKIP_PRINT=true;;
     r) RETURN_HASH_ONLY=true;;
+    o) OUTPUT_OPT=${OPTARG};;
     p) PRINT_RANGE=${OPTARG};;
   esac
 done
 shift $((OPTIND -1))
 
 FNAME=$1
-PDF_PATH="/tmp"
 PDF_ENGINE="lualatex"
 FILTERS=$PD_PANDOC_FILTERS
 INPUT_FORMAT="markdown"
 TEMPLATE="template-draft.tex"
-OUTPUT_PATH="$PDF_PATH/$(basename $FNAME .md).pdf"
+PDF_PATH="/tmp"
+OUTPUT_PATH=${OUTPUT_OPT:-"$PDF_PATH/$(basename $FNAME .md).pdf"}
 
 function GenerateDraftHash {
   if [[ "$OSTYPE" == "darwin"* ]]; then

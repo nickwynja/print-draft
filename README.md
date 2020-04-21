@@ -37,6 +37,7 @@ pd [OPTIONS] [FILE]
   -h     show this message
   -r     print a hash of the file contents
   -d     Don't print, just export to PDF
+  -o     Output file path and name. Defaults to /tmp/{filename}.pdf
   -p     A print range for lp. See lp manual for format
 
 Examples:
