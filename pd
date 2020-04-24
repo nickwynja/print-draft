@@ -34,7 +34,7 @@ FNAME=$1
 PDF_ENGINE="lualatex"
 FILTERS=$PD_PANDOC_FILTERS
 INPUT_FORMAT="markdown"
-TEMPLATE="template-draft.tex"
+TEMPLATE="$HOME/.config/print-draft/template-draft.tex"
 PDF_PATH="/tmp"
 OUTPUT_PATH=${OUTPUT_OPT:-"$PDF_PATH/$(basename $FNAME .md).pdf"}
 
